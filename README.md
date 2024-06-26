@@ -1,4 +1,4 @@
-# WordWise Web App 🌎
+# WordWise Web App 🌎 📖
 
 Welcome to the README for WordWise, a web application for language learning and vocabulary management.
 
