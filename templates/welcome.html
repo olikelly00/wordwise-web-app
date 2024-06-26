@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wordwise</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/wordwisestyles.css') }}">
+</head>
+  <body>
+    <div class="container">
+        <div class="title">
+            <h1>Hi there! Welcome to Wordwise</h1>
+        </div>
+        <div class="subtitle">
+            <h2>What word or phrase are you looking for?</h2>
+        </div>
+        <div class="input-container">
+            <form action="{{ url_for('word') }}" method="post">
+                <span class="input-field">
+                    <input type="text" name="word"
+                        placeholder="Type your word here"
+                        value="{{request.form['word']}}">
+                </span>  
+                <span class="language-selector">
+                    <select required name="language-menu"
+                        placeholder="Choose your language">
+                        {% for option in options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </span>
+                <span class="submit-button">
+                    <button type="submit">Search</button>
+                </span>
+            </form>
+        </div>
+    </div>
+  </body>
+</html>

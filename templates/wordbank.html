@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Your WordBank</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/wordwisestyles.css') }}">
+</head>
+  <body>
+    <div class="container">
+      <div class="subtitle">
+        <h1>Here's your word bank:</h1>
+      </div>
+      <div> 
+        {% for word in words %}
+          <p>{{ word }}</p>
+        {% endfor %}
+    </div>
+      <div class="wordbank-container">
+      </div>
+    <div class="button-container">
+      <form action="{{ url_for('home') }}" method="get">
+      <span class="home-button">
+        <button type="submit">🏡 Take me home</button>
+    </span>
+  </form>
+    </div>
+  </div>
+</body>
+
+</html>
