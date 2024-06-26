@@ -60,3 +60,6 @@ class WordRepository():
     def alphabetise_wordbank_by_word_in_target_language(self, word_list):
         return sorted(word_list, key=lambda word: word.word_target_language)
 
+
+    def sort_wordbank_by_time_stamp(self, word_list):
+        return sorted(word_list, key=lambda word: word.timestamp)

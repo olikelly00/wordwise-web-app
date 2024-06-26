@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS words (
 
 INSERT INTO words (source_language, target_language, word_source_language, word_target_language, time_stamp, user_id) 
 VALUES 
-('English', 'French', 'Apple', 'Pomme', '00000', '1'),
-('English', 'Italian', 'Apple', 'Mela', '00000', '2'),
-('French', 'English', 'Pomme', 'Apple', '00000', '1'),
-('French', 'Italian', 'Pomme', 'Mela', '00000', '2');
+('English', 'French', 'Apple', 'Pomme', '06/26/24 15:38:38', '1'),
+('English', 'Italian', 'Apple', 'Mela', '06/26/24 15:38:38', '2'),
+('French', 'English', 'Pomme', 'Apple', '06/26/24 15:38:38', '1'),
+('French', 'Italian', 'Pomme', 'Mela', '06/26/24 15:38:38', '2');

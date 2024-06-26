@@ -1,3 +1,4 @@
+from datetime import datetime
 
 class Word():
     def __init__(self, id, source_language, target_language, word_source_language, word_target_language, time_stamp, user_id):
@@ -17,7 +18,7 @@ class Word():
             'target_language': self.target_language,
             'word_source_language': self.word_source_language,
             'word_target_language': self.word_target_language,
-            'time_stamp': self.timestamp.isoformat() if self.timestamp else None,
+            'time_stamp': self.timestamp,
             'user_id': None
         }
 
@@ -27,3 +28,9 @@ class Word():
     def __repr__(self):
         return f"Word({self.source_language}, {self.target_language}, {self.word_source_language}, {self.word_target_language}, {self.timestamp}"
 
+
+    def string_to_datetime_object(self, timestamp):
+        return datetime.strptime(timestamp, '%m/%d/%y %H:%M:%S')
+    
+    def datetime_object_to_string(self, timestamp):
+        return timestamp.strftime('%m/%d/%y %H:%M:%S')

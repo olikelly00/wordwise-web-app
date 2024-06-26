@@ -58,16 +58,36 @@ def word():
 @app.route('/add_to_wordbank', methods=['POST'])
 def add_to_wordbank():
     word_dict = session.get('word_object') 
-    print("hello world" + str(word_dict))
     if not word_dict:
         return "Word not provided in request", 400
     word_object = Word(**word_dict)
     connection = get_flask_database_connection(app)
     repository = WordRepository(connection)
-    print(word_object)
     repository.add(word_object)
-    word_target_lang = repository.all()  
-    return render_template('wordbank.html', words=words)
+
+
+    target_language = request.form.get('target_language')
+    source_language = request.form.get('source_language')
+    # sort_source = request.form.get('sort_source')
+    # sort_target = request.form.get('sort_target')
+    sorted_chronoogically = request.form.get('sorted_chronologically')
+
+    words = repository.all()
+
+    if target_language:
+        words = [word for word in words if word.target_language == target_language]
+    if source_language:
+        words = [word for word in words if word.source_language == source_language]
+    # if sort_source:
+    #     words = repository.alphabetise_wordbank_by_word_in_source_language(words)
+    # if sort_target:
+    #     words = repository.alphabetise_wordbank_by_word_in_target_language(words)
+    if sorted_chronoogically:
+        words = repository.sort_wordbank_by_time_stamp(words)
+
+
+    return render_template('wordbank.html', words=words, language_menu=language_menu, options=language_menu.keys())
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5000)))

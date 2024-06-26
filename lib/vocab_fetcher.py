@@ -49,7 +49,8 @@ def fetch_vocab_from_api(text, target_lang):
     return result
 
 def convert_word_to_object(text, vocab, target_lang):
-    word = Word(id = None, source_language = [x for x in language_menu if language_menu[x]['abbreviation'] == vocab['translations'][0]['detected_source_language']][0], target_language = target_lang, word_source_language = text, word_target_language = vocab['translations'][0]['text'], time_stamp = datetime.now(), user_id = 0)
+    timestamp = datetime.now().strftime('%m/%d/%y %H:%M:%S')
+    word = Word(id = None, source_language = [x for x in language_menu if language_menu[x]['abbreviation'] == vocab['translations'][0]['detected_source_language']][0], target_language = target_lang, word_source_language = text, word_target_language = vocab['translations'][0]['text'], time_stamp = timestamp, user_id = 0)
     return word
 
 def display_word_target_language(word):

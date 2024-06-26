@@ -12,21 +12,144 @@
       <div class="subtitle">
         <h1>Here's your word bank:</h1>
       </div>
-      <div> 
+      <table id="wordbank-table"> 
+        <tr>
+          <th>
+            Filter by Source Language
+            <span class="source-language-selector">
+              <select required name="language-menu" onchange="filterAndReload(0, this.value)">
+                <option value="all">All</option>
+                {% for option in options %}
+                <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+              </select>
+            </span>
+      </th>
+      <th>
+        Filter by Target Language
+        <span class="targetLanguage-selector">
+          <select required name="language-menu" onchange="filterAndReload(1, this.value)">
+            <option value="all">All</option>
+            {% for option in options %}
+            <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+          </select>
+        </span>
+  </th>
+          <th>
+            Search Word by Source Language
+            <input type="text" id="wordbySourceLangInput" oninput="filterTable(2, this.value)">
+          </th>
+          <th>
+            Search Word by Target Language
+            <input type="text" id="wordbyTargetLangInput" oninput="filterTable(3, this.value)">
+          </th>
+          <th>
+            <button onclick= "sortAndReload(4, this.value)"> Sort by date added </button>
+        </tr>
         {% for word in words %}
-          <p>{{ word }}</p>
+        <tr>
+          <td>{{ language_menu[word.source_language]['flag_emoji'] }}</td>
+          <td>{{ language_menu[word.target_language]['flag_emoji'] }}</td>
+          <td>{{ word.word_source_language }}</td>
+          <td>{{ word.word_target_language }}</td>
+          <td>{{ "Added on: " + word.timestamp }}</td>
+        </tr>
+        <br>
         {% endfor %}
-    </div>
-      <div class="wordbank-container">
-      </div>
+      </table>
     <div class="button-container">
-      <form action="{{ url_for('home') }}" method="get">
+      <form action="{{ url_for('welcome') }}" method="get">
       <span class="home-button">
         <button type="submit">🏡 Take me home</button>
     </span>
+
+  
   </form>
     </div>
   </div>
 </body>
-
 </html>
+
+<script>
+
+var languageToEmoji = {
+  "English": "🇬🇧",
+  "Czech": "🇨🇿",
+  "Arabic": "🇸🇦",
+  "Danish": "🇩🇰",
+  "Greek": "🇬🇷",
+  "Estonian": "🇪🇪",
+  "Finnish": "🇫🇮",
+  "Hungarian": "🇭🇺",
+  "Japanese": "🇯🇵",
+  "Korean": "🇰🇷",
+  "Dutch": "🇳🇱",
+  "Polish": "🇵🇱",
+  "Russian": "🇷🇺",
+  "French": "🇫🇷",
+  "German": "🇩🇪",
+  "Spanish": "🇪🇸",
+  "Italian": "🇮🇹"
+};
+var sortAscending = true;
+
+
+function sortTable(column) {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("wordbank-table");
+  switching = true;
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[column];
+      y = rows[i + 1].getElementsByTagName("TD")[column];
+      if (sortAscending ? Date.parse(x.innerHTML) > Date.parse(y.innerHTML) : Date.parse(x.innerHTML) < Date.parse(y.innerHTML)) {
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+  sortAscending = !sortAscending; 
+}
+
+function filterTable(column, value) {
+  var filter;
+  if (value === "all") {
+    filter = "";
+  } else if (column < 2) {
+    filter = languageToEmoji[value];
+  } else {
+    filter = value.toLowerCase();
+  }
+  var table = document.getElementById("wordbank-table");
+  var tr = table.getElementsByTagName("tr");
+
+  for (var i = 0; i < tr.length; i++) {
+    var td = tr[i].getElementsByTagName("td")[column];
+    if (td) {
+      var txtValue = (td.textContent || td.innerText).toLowerCase();
+      if (txtValue.indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }            
+  }
+}
+
+  function filterAndReload(column, value) {
+  filterTable(column, value);
+}
+
+  function sortAndReload(column, value) {
+    sortTable(column, value)
+  }
+
+  </script>
